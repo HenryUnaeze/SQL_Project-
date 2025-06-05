@@ -1,1 +1,12 @@
+SELECT 
+    p.productLine,
+    p.productName,
+    ROUND((p.quantityInStock * p.buyPrice) / line.totalStockValue * 100, 2) AS percentageOfLineValue
+FROM Products p
+JOIN (
+    SELECT productLine, SUM(quantityInStock * buyPrice) AS totalStockValue
+    FROM Products
+    GROUP BY productLine
+) line ON p.productLine = line.productLine
+ORDER BY p.productLine, percentageOfLineValue DESC;
 
