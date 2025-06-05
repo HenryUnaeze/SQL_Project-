@@ -1,1 +1,9 @@
+/*
+List the products ordered on a Monday
+*/
 
+SELECT DISTINCT p.productName, o.orderDate
+FROM Orders o
+JOIN OrderDetails od ON o.orderNumber = od.orderNumber
+JOIN Products p ON od.productCode = p.productCode
+WHERE DAYOFWEEK(o.orderDate) = 2;  
