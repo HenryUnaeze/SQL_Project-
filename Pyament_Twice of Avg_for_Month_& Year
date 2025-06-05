@@ -1,1 +1,16 @@
+/*Payments twice the average for that month and year?
+ *
+/
 
+SELECT p.customerNumber, p.paymentDate, p.amount
+FROM Payments p
+JOIN (
+    SELECT 
+        YEAR(paymentDate) AS yr,
+        MONTH(paymentDate) AS mon,
+        AVG(amount) AS avg_amount
+    FROM Payments
+    GROUP BY YEAR(paymentDate), MONTH(paymentDate)
+) monthly_avg ON YEAR(p.paymentDate) = monthly_avg.yr AND MONTH(p.paymentDate) = monthly_avg.mon
+WHERE p.amount > 2 * monthly_avg.avg_amount
+ORDER BY p.paymentDate;
