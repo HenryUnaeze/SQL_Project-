@@ -1,1 +1,8 @@
+/*Report those products that have been sold with a markup of 100% or more
+*/
 
+
+SELECT DISTINCT p.productName, od.priceEach, p.buyPrice
+FROM OrderDetails od
+JOIN Products p ON od.productCode = p.productCode
+WHERE od.priceEach >= 2 * p.buyPrice;
