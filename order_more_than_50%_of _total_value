@@ -1,1 +1,16 @@
+SELECT 
+    od.orderNumber,
+    p.productName,
+    SUM(od.quantityOrdered * od.priceEach) AS productValue,
+    order_total.totalValue
+FROM OrderDetails od
+JOIN Products p ON od.productCode = p.productCode
+JOIN (
+    SELECT orderNumber, COUNT(*) AS productCount, SUM(quantityOrdered * priceEach) AS totalValue
+    FROM OrderDetails
+    GROUP BY orderNumber
+    HAVING productCount > 2
+) order_total ON od.orderNumber = order_total.orderNumber
+GROUP BY od.orderNumber, p.productName, order_total.totalValue
+HAVING productValue > 0.5 * order_total.totalValue;
 
