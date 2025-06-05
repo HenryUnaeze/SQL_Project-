@@ -1,1 +1,11 @@
+/* List the names of customers and their corresponding order number where a particular order from that customer has a value greater than $25,000
 
+*/  
+
+
+SELECT c.customerName, o.orderNumber, SUM(od.quantityOrdered * od.priceEach) AS orderValue
+FROM Customers c
+JOIN Orders o ON c.customerNumber = o.customerNumber
+JOIN OrderDetails od ON o.orderNumber = od.orderNumber
+GROUP BY o.orderNumber, c.customerName
+HAVING orderValue > 25000;
