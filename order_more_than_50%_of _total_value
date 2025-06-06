@@ -1,4 +1,9 @@
-SELECT 
+/* Products in orders with more than two items that contribute >50% of order's total value
+
+*/
+
+
+ SELECT 
     od.orderNumber,
     p.productName,
     SUM(od.quantityOrdered * od.priceEach) AS productValue,
@@ -13,4 +18,3 @@ JOIN (
 ) order_total ON od.orderNumber = order_total.orderNumber
 GROUP BY od.orderNumber, p.productName, order_total.totalValue
 HAVING productValue > 0.5 * order_total.totalValue;
-
